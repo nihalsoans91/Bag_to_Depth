@@ -17,3 +17,4 @@ rosbag record -o rgbdepth /_b camera/rgb/camera_info /camera/rgb/image_raw /came
 rosbag record -o rgbdepth /_camera/rgb/camera_info /camera/rgb/image_raw /camera/depth_registered/camera_info /camera/depth_registered/image_raw /camera/depth_registered/image
 rosbag record -o rgbdepth /_ccamera/rgb/camera_info /camera/rgb/image_raw /camera/depth_registered/camera_info /camera/depth_registered/image_raw /camera/depth_registered/image
 
+rosbag play 01_Left.bag 
