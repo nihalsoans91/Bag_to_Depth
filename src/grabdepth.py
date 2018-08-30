@@ -28,8 +28,8 @@ def checkdepth(msg):
         print(e)
     
     image_normal= np.array(imnormalize(np.max(cv_image),cv_image),dtype=np.uint8)
-    np.save("./frame"+str(i)+".npy",image_normal)
-    rospy.loginfo("Image Saved"+str(i))
+    np.save("./dframe"+str(i)+".npy",image_normal)
+    rospy.loginfo("Depth Saved"+str(i))
     i+=1
     
 if __name__ == '__main__':
