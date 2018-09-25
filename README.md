@@ -19,7 +19,9 @@ Arange the bag files in diffrent folders as below
 - truedepthandrgb.sh
 ### How to run
 step 1: Run ros.sh using ``` sh ros.sh ``` on one terminal
+
 step 2: Open another terminal and run ``` sh truedepthandrgb.sh ```
+
 step 3: Wait
 
 ### What after it executes
