@@ -12,3 +12,6 @@ bool firstRGB = false;
 bool firstDepth = false;
 uint64_t rgbImages = 0;
 uint64_t depthImages = 0;
+image_transport::CameraSubscriber subdepth;
+image_transport::CameraSubscriber subrgb;
+cv_bridge::CvImagePtr cv_ptr_rgb;
