@@ -3,6 +3,7 @@
 import rospy
 import numpy as np
 import cv2
+import sys
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 cvb=CvBridge()
@@ -12,6 +13,8 @@ rgb_mem=None
 depth_mem=None
 first_flag_depth=True
 first_flag_rgb=True
+depth_folder = ""
+rgb_folder = ""
 
 def imnormalize(xmax,image):
     """
@@ -38,15 +41,15 @@ def grabrgb(msg):
         image_normal= np.array(cv_image)
         if first_flag_rgb == True :
             rgb_mem = np.copy(image_normal)
-            np.save("/home/nihal/Pictures/images/rgb/frame"+str(i_rgb)+".npy",image_normal)
-            cv2.imwrite("/home/nihal/Pictures/images/rgb/frame"+str(i_rgb)+".jpg", image_normal)
+            np.save(rgb_folder+"/frame"+str(i_rgb)+".npy",image_normal)
+            cv2.imwrite(rgb_folder+"/frame"+str(i_rgb)+".jpg", image_normal)
             first_flag_rgb=False
         elif np.array_equal(rgb_mem,image_normal) :
             return
         else :
             rgb_mem = np.copy(image_normal)
-            np.save("/home/nihal/Pictures/images/rgb/frame"+str(i_rgb)+".npy",image_normal)
-            cv2.imwrite("/home/nihal/Pictures/images/rgb/frame"+str(i_rgb)+".jpg", image_normal)
+            np.save(rgb_folder+"/frame"+str(i_rgb)+".npy",image_normal)
+            cv2.imwrite(rgb_folder+"/frame"+str(i_rgb)+".jpg", image_normal)
         i_rgb+=1
 
 def checkdepth(msg):
@@ -62,26 +65,26 @@ def checkdepth(msg):
     numpy_image= np.array(cv_image,dtype=np.uint16)
     if first_flag_depth == True:
         depth_mem = np.copy(numpy_image)
-        np.save("/home/nihal/Pictures/images/depth/dframe"+str(i_depth)+".npy",numpy_image)
-        cv2.imwrite("/home/nihal/Pictures/images/depth/dframe"+str(i_depth)+".jpg", image_normal)
+        np.save(depth_folder+"/dframe"+str(i_depth)+".npy",numpy_image)
+        cv2.imwrite(depth_folder+"/dframe"+str(i_depth)+".jpg", image_normal)
         first_flag_depth=False
     if (depth_mem==numpy_image).all() :
         return
     else:
         depth_mem = np.copy(numpy_image)
-        np.save("/home/nihal/Pictures/images/depth/dframe"+str(i_depth)+".npy",numpy_image)
-        cv2.imwrite("/home/nihal/Pictures/images/depth/dframe"+str(i_depth)+".jpg", image_normal)
+        np.save(depth_folder+"/dframe"+str(i_depth)+".npy",numpy_image)
+        cv2.imwrite(depth_folder+"/dframe"+str(i_depth)+".jpg", image_normal)
     i_depth+=1
     
 if __name__ == '__main__':
-    
+    if len(sys.argv) < 2:
+        print("usage: grabrgbdepth.py rgbfolder depthfolder")
+        exit(0)
+    rgb_folder = sys.argv[1]
+    depth_folder = sys.argv[2]
     rospy.init_node("grabrgb")
     rospy.loginfo("Running RGB Grabber")
     rospy.Rate(0.1)
     rospy.Subscriber("/camera/rgb/image_raw",Image,grabrgb)
     rospy.Subscriber("/camera/depth_registered/image_raw",Image,checkdepth)
     rospy.spin()
-        
-    
-    
-    
