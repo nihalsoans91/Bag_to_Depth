@@ -20,7 +20,7 @@ for d in */;
 	     echo "Doing RGB and Depth"
 	     python2 ../grabrgbdepth.py rgb_images$i depth_images$i &
              pwd
-	     rosbag play ../$f
+	     rosbag play $f
 	     sleep 15
 	     ps aux | grep rosbag | grep -v grep | awk '{print $2}' | xargs kill -SIGKILL > /dev/null 2>&1
 	     ps aux | grep grabrgb | grep -v grep | awk '{print $2}' | xargs kill -SIGKILL > /dev/null 2>&1

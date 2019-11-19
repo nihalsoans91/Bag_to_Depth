@@ -34,7 +34,7 @@ def grabrgb(msg):
     global first_flag_rgb
     if i_rgb <= i_depth :
         try:
-            cv_image = cvb.imgmsg_to_cv2(msg,"rgb8")
+            cv_image = cvb.imgmsg_to_cv2(msg,"bgr8")
         except CvBridgeError as e:
             print(e)
         
