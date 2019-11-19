@@ -6,7 +6,7 @@ void RGBCallback(const sensor_msgs::ImageConstPtr& msg){
     if ( firstDepth )
     {
         try{
-            cv_ptr_rgb = cv_bridge::toCvCopy(msg, "rgb8");
+            cv_ptr_rgb = cv_bridge::toCvCopy(msg, "bgr8");
         }
         catch (cv_bridge::Exception& e){
             ROS_ERROR("cv_bridge exception RGB: %s", e.what());
