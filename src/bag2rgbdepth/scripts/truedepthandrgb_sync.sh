@@ -9,7 +9,7 @@ sudo chmod -R 777 "$hm"
 for d in */;
   do 
      echo Entering into $d
-     listf=`ls "$d"| grep rgbdepth`
+     listf=`ls "$d"| grep .bag`
      echo ${listf}
      cd "$d"
      i=1
