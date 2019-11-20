@@ -35,11 +35,11 @@ The folder strcture now will be
 - Bag folder1
   - bagfile.bag
   - depth_images1
-    - frame1.jpg
-    - frame1.npy
+    - dframe1.jpg
+    - dframe1.npy
     - ...
-    - framen.jpg
-    - framen.npy
+    - dframen.jpg
+    - dframen.npy
   - rgb_images1
     - frame1.jpg
     - frame1.npy
@@ -49,11 +49,11 @@ The folder strcture now will be
 - Bag folder2
   - bagfile2.bag
   - depth_images1
-    - frame1.jpg
-    - frame1.npy
+    - dframe1.jpg
+    - dframe1.npy
     - ...
-    - framen.jpg
-    - framen.npy
+    - dframen.jpg
+    - dframen.npy
   - rgb_images1
     - frame1.jpg
     - frame1.npy
@@ -96,42 +96,17 @@ Meanwhile in another terminal run these two commands
 roscore &
 rosbag play bagfile1.bag
 ```
-### How to run
-step 1: Run ros.sh using ``` sh ros.sh ``` on one terminal
-
-step 2: Open another terminal and run ``` sh truedepthandrgb.sh ```
-
-step 3: Wait
 
 ### What after it executes
 The folder strcture now will be 
 - Bag folder1
   - bagfile.bag
   - depth_images1
-    - frame1.jpg
-    - frame1.npy
+    - dframe1.jpg
     - ...
-    - framen.jpg
-    - framen.npy
+    - dframen.jpg
   - rgb_images1
     - frame1.jpg
-    - frame1.npy
     - ...
     - framen.jpg
-    - framen.npy
-- Bag folder2
-  - bagfile2.bag
-  - depth_images1
-    - frame1.jpg
-    - frame1.npy
-    - ...
-    - framen.jpg
-    - framen.npy
-  - rgb_images1
-    - frame1.jpg
-    - frame1.npy
-    - ...
-    - framen.jpg
-    - framen.npy
-
 
