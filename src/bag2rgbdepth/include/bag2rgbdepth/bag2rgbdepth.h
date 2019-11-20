@@ -4,6 +4,7 @@
 #include <image_transport/image_transport.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <cv_bridge/cv_bridge.h>
+#include <sys/stat.h> 
 
 void RGBCallback(const sensor_msgs::ImageConstPtr& msg);
 void DepthCallback(const sensor_msgs::ImageConstPtr& msg);
@@ -15,3 +16,4 @@ uint64_t depthImages = 0;
 image_transport::CameraSubscriber subdepth;
 image_transport::CameraSubscriber subrgb;
 cv_bridge::CvImagePtr cv_ptr_rgb;
+std::string filename_home = "";

@@ -12,7 +12,7 @@ void RGBCallback(const sensor_msgs::ImageConstPtr& msg){
             ROS_ERROR("cv_bridge exception RGB: %s", e.what());
             return ;
         }
-        std::string filename = "/home/nihal/Pictures/images/rgb/rgb_" + std::to_string(rgbImages) + ".jpg" ;
+        std::string filename = filename_home + "/rgb/rgb_" + std::to_string(rgbImages) + ".jpg" ;
         cv::imwrite(filename,cv_ptr_rgb->image);
         rgbImages++;
     }
@@ -29,7 +29,7 @@ void DepthCallback(const sensor_msgs::ImageConstPtr& msg){
             ROS_ERROR("cv_bridge exception DEPTH: %s", e.what());
             return ;
         }
-        std::string filename = "/home/nihal/Pictures/images/depth/depth_" + std::to_string(depthImages) + ".jpg";
+        std::string filename = filename_home + "depth/depth_" + std::to_string(depthImages) + ".jpg";
         cv::imwrite(filename ,cv_ptr_depth->image);
         depthImages++;
     }
@@ -41,6 +41,11 @@ int main(int argc, char** argv)
     ros::init(argc,argv,"bag2Depth");
     ros::NodeHandle nh;
     image_transport::ImageTransport it(nh);
+    nh.getParam("folder_extract_location",filename_home);
+    std::string filergb = filename_home+"/rgb";
+    std::string filedepth = filename_home+"/depth";
+    mkdir(filergb.c_str(),0777);
+    mkdir(filedepth.c_str(),0777);
     cv_ptr_rgb.reset (new cv_bridge::CvImage);
     ROS_INFO("Running");
     // it.subscribe("/camera/rgb/image_raw", 1, RGBCallback);

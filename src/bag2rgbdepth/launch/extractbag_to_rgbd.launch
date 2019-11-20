@@ -1,0 +1,5 @@
+<launch>
+  <node name="bag2rgbdepth_node" pkg="bag2rgbdepth" type="bag2rgbdepth_node" output="screen">
+    <param name="folder_extract_location" value="./"/>
+  </node>
+</launch>
