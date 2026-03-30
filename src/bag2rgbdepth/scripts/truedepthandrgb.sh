@@ -1,41 +1,38 @@
 #!/bin/bash
+set -euo pipefail
 
-hm=./
+SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-#cd "$hm"/data
+for d in */; do
+    echo "Processing directory: $d"
+    bag_files=$(ls "$d"*.bag 2>/dev/null || true)
+    if [ -z "$bag_files" ]; then
+        echo "  No .bag files found in $d, skipping."
+        continue
+    fi
 
-sudo chmod -R 777 "$hm"
+    i=1
+    for f in $bag_files; do
+        rgb_out="$d/rgb_images$i"
+        depth_out="$d/depth_images$i"
+        mkdir -p "$rgb_out" "$depth_out"
 
-for d in */;
-  do 
-     echo Entering into $d
-     listf=`ls "$d"| grep bag`
-     echo ${listf}
-     cd "$d"
-     i=1
-     for f in ${listf} ; do
-             pwd
-	     mkdir rgb_images$i
-	     cd rgb_images$i
-	     echo "Doing RGB"
-	     python2 ../../grabrgb.py &
-             pwd
-	     rosbag play ../$f
-	     sleep 15
-	     ps aux | grep rosbag | grep -v grep | awk '{print $2}' | xargs kill -SIGKILL > /dev/null 2>&1
-	     ps aux | grep grabrgb | grep -v grep | awk '{print $2}' | xargs kill -SIGKILL > /dev/null 2>&1
-	     cd ..
-	     mkdir depth_images$i
-	     cd depth_images$i
-	     echo "Doing Depth"
-	     python2 ../../grabdepth.py &
-             pwd
-	     rosbag play ../$f
-	     sleep 15
-	     ps aux | grep rosbag | grep -v grep | awk '{print $2}' | xargs kill -SIGKILL > /dev/null 2>&1
-	     ps aux | grep grabdepth.py | grep -v grep | awk '{print $2}' | xargs kill -SIGKILL > /dev/null 2>&1
-	     cd ..
-	     i=$((i+1))
-     done;
-     cd ..
-done;
+        echo "  [Pass 1] Extracting RGB from $f -> $rgb_out"
+        python3 "$SCRIPTS_DIR/grabrgb.py" "$rgb_out" &
+        GRABBER_PID=$!
+        rosbag play "$f"
+        sleep 2
+        kill "$GRABBER_PID" 2>/dev/null || true
+
+        echo "  [Pass 2] Extracting depth from $f -> $depth_out"
+        python3 "$SCRIPTS_DIR/grabdepth.py" "$depth_out" &
+        GRABBER_PID=$!
+        rosbag play "$f"
+        sleep 2
+        kill "$GRABBER_PID" 2>/dev/null || true
+
+        i=$((i + 1))
+    done
+done
+
+echo "Done."
